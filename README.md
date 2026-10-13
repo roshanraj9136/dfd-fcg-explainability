@@ -54,17 +54,71 @@ correctly. 60 overlapping 3-second clips per video.
 
 ### Why it said FAKE — the eyes
 
-Spatial-branch contribution to `logit(FAKE) − logit(REAL)`:
+The spatial branch can be decomposed **two independent ways**, and they agree.
 
-| component | FAKE | share | REAL | share | change |
+**View 1 — by the model's own component queries** (feature space; each query attends over all
+256 patches):
+
+| component query | FAKE | share | REAL | share | change |
 |---|---|---|---|---|---|
 | **eyes** | **+1.039** | **45.6%** | +0.245 | 24.5% | +0.794 |
 | skin | +0.617 | 27.1% | +0.079 | 8.0% | +0.538 |
-| nose | +0.438 | 19.2% | **−0.601** | 60.3% | **+1.039** |
-| lips | +0.183 | 8.0% | +0.071 | 7.2% | +0.112 |
+| nose | +0.438 | 19.3% | **−0.601** | 60.3% | **+1.039** |
+| lips | +0.183 | 8.1% | +0.071 | 7.2% | +0.112 |
 
-The **eyes** carry the FAKE verdict. In the real video the **nose** is instead the strongest
-REAL vote (−0.601); after the swap every component turns towards FAKE, the nose shifting most.
+**View 2 — by patch region** (image space; the 16×16 grid cut into landmark-defined regions,
+which is the spatially localised answer):
+
+| face region | patches | FAKE share | FAKE signed | REAL share | REAL signed |
+|---|---|---|---|---|---|
+| **eyes** | 46–50 | **47.7%** | +1.1507 | 37.7% | +0.4331 |
+| skin | 70–75 | 33.0% | +0.7955 | 2.9% | +0.0337 |
+| lips | 22–27 | 13.7% | +0.3299 | 3.6% | +0.0416 |
+| **nose** | 18 | 5.6% | −0.1347 | **55.7%** | **−0.6402** |
+
+The **eyes** carry the FAKE verdict (45.6% by query, 47.7% by region — two different methods,
+same conclusion). The **nose** is the strongest REAL vote in the authentic video (−0.640,
+55.7% of its spatial evidence).
+
+This works because the spatial feature is itself a sum over patches —
+`y_s = (1/TQ) Σ_t Σ_q Σ_l s_aff[t,q,l]·v[t,l]` — so grouping patches into regions and adding
+their contributions stays exact. Verified to **4e-16**.
+
+### The two branches read different regions
+
+Put on identical region definitions:
+
+| region | SPATIAL (fake) | TEMPORAL (fake) | SPATIAL (real) | TEMPORAL (real) |
+|---|---|---|---|---|
+| eyes | **47.7%** | 30.8% | 37.7% | 0.9% |
+| skin | 33.0% | **41.9%** | 2.9% | **66.6%** |
+| lips | 13.7% | 18.5% | 3.6% | 23.4% |
+| nose | 5.6% | 8.8% | **55.7%** | 9.1% |
+
+Appearance evidence concentrates in the **eyes**, motion evidence in the **skin**. So although
+either branch alone reaches the correct verdict on clean video, they are reading genuinely
+different evidence rather than duplicating each other.
+
+### One FCG query drifts off its own anatomy
+
+Having both views allows a cross-check: *does the query named "eyes" actually collect its
+evidence from eye patches?*
+
+| query | own-region share (REAL) | own-region share (FAKE) | strongest region (FAKE) | |
+|---|---|---|---|---|
+| eyes | 69.2% | 88.6% | eyes | localised ✓ |
+| skin | 79.4% | 79.5% | skin | localised ✓ |
+| lips | 59.6% | 86.0% | lips | localised ✓ |
+| **nose** | 86.2% | **9.1%** | **skin** (77.1%) | **drifted ✗** |
+
+Three of four queries sit on their own anatomy. The **nose** query is well localised on the
+authentic face (86.2%) but **collapses to 9.1% once the face is swapped**, drawing 77% of its
+evidence from neighbouring skin instead.
+
+Interpretation: FCG anchors each query to *real* facial features, so when a swap replaces the
+nose it no longer matches that prototype and the attention slides onto adjacent skin. This is
+a concrete, measured limitation of FCG, and it explains precisely why the two views disagree
+about the nose (19.3% by query vs 5.6% by region).
 
 ### Why it said REAL — motion consistency
 
@@ -110,13 +164,15 @@ additional branch.
 | `f1_architecture.png` | model and the three decision heads |
 | `f2_verdict_timeline.png` | per-clip decision across each video |
 | `f3_branch_share.png` | spatial vs temporal share |
-| `f4_facial_parts.png` | per-component contribution |
+| `f4_facial_parts.png` | per-component contribution (query view) |
 | `f5_temporal_maps.png` | 16×16 temporal evidence on the face |
 | `f6_zones.png` | area-normalised zone attribution |
 | `f7_layers.png` | per-layer contribution across 24 layers |
 | `f8_attention.png` | where each of the 4 FCG queries looks |
 | `f9_counterfactual.png` | branch-ablation verdicts |
 | `f10_robustness.png` | robustness sweep with branch reliance |
+| `f11_regions.png` | **patch regions + per-region spatial attribution** |
+| `f12_region_validation.png` | **cross-validation of the two views, branch comparison** |
 
 ---
 
@@ -140,6 +196,8 @@ python -m src.preprocess.crop_main_face \
 python xai/smoke.py                                 # exactness self-test
 python xai/run_analysis.py --max-clips 60           # main analysis
 python xai/make_figures.py                          # figures + derived metrics
+python xai/run_region_analysis.py --max-clips 30    # patch-region attribution
+python xai/make_region_figures.py                   # region figures
 python xai/run_robustness.py --levels 1 3 5         # robustness sweep
 python xai/merge_robustness.py
 python xai/build_deck.py                            # presentation
@@ -157,13 +215,15 @@ xai/
   engine.py            attribution algebra + model instrumentation
   run_analysis.py      main per-clip analysis
   make_figures.py      figures and derived metrics
+  run_region_analysis.py   exact per-patch / per-region spatial attribution
+  make_region_figures.py   region figures + cross-validation
   run_robustness.py    authors' perturbation protocol
   merge_robustness.py  merge sweep chunks + robustness figure
   build_deck.py        presentation builder
   check_deck.py        deck layout validator
   smoke.py             end-to-end exactness self-test
   audit/               independent correctness audits
-  out/                 report.json, derived.json, robustness.json, arrays.npz
+  out/                 report.json, derived.json, regions.json, robustness.json, *.npz
   figs/                all figures
 ```
 
@@ -179,9 +239,10 @@ xai/
   spatial head provably never reads the temporal branch, so the ablation is exact for these
   weights — but it is *not* the same as a model re-trained with `op_mode=["S"]`, which would
   converge to different weights.
-- Patch-to-zone mapping uses nearest-landmark assignment on a 16×16 grid, so zone boundaries
-  are approximate even though the per-patch contributions are exact.
-- The robustness sweep uses 8 clips per condition; the main analysis uses 60.
+- Region boundaries come from nearest-landmark assignment on a 16×16 grid, so a patch
+  straddling two regions is assigned to one. The per-patch contributions are exact; the
+  grouping into named regions is the approximate step.
+- The robustness sweep uses 8 clips per condition; the main analysis 60, the region analysis 30.
 
 ## License
 

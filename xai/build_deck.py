@@ -17,7 +17,9 @@ OUT = Path("xai/out"); FIG = Path("xai/figs")
 R = json.load(open(OUT / "report.json"))
 D = json.load(open(OUT / "derived.json"))
 RS = json.load(open(OUT / "robustness_summary.json"))
+RG = json.load(open(OUT / "regions.json"))
 V_R, V_F = R["videos"]["000"], R["videos"]["000_003"]
+G_R, G_F = RG["000"], RG["000_003"]
 
 INK = RGBColor(0x1C, 0x1C, 0x24)
 MUTE = RGBColor(0x5A, 0x5F, 0x6E)
@@ -155,8 +157,8 @@ card(s, 8.85, 2.72, 3.86, 1.78, "Attribution method", "Exact, not estimated",
 
 tb(s, MARGIN, 4.80, CW, 1.7,
    ["- Both FaceForensics++ samples shipped with the repository are classified correctly.",
-    "- Each decision is split into a spatial vs temporal share, then into facial components, "
-    "patches and encoder layers \u2014 all exactly.",
+    "- Each decision is split \u2014 exactly \u2014 into a spatial vs temporal share, then into "
+    "facial regions (patches around eyes / nose / lips / skin), patches and encoder layers.",
     f"- Stress-tested on the authors' own 7 perturbations \u00d7 3 severities: "
     f"{RS['false_positives']}/21 false positives, {RS['false_negatives']}/21 false negatives."],
    13, False, INK, line=1.34)
@@ -259,23 +261,79 @@ tb(s, MARGIN, y2 + 0.12, CW, 0.9,
 
 # ===================================================================== 6 parts
 s = slide()
-y = title(s, "Why it said YES (fake)",
-          "The spatial branch broken into its four guided facial components", "result 3")
+y = title(s, "Why it said YES \u2014 view 1: the model's own components",
+          "Decomposing the spatial branch over its four guided queries (feature space)",
+          "result 3a")
 b, _, _ = pic_fit(s, "f4_facial_parts.png", MARGIN, y, CW, 3.25)
 pf, pr = V_F["spatial_parts"], V_R["spatial_parts"]
-rows = [["component", "FAKE contrib.", "share", "REAL contrib.", "share", "change (F\u2212R)"]]
+rows = [["component query", "FAKE contrib.", "share", "REAL contrib.", "share", "change (F\u2212R)"]]
 for p in ("eyes", "skin", "nose", "lips"):
     rows.append([p, f"{pf['contrib_mean'][p]:+.3f}", pct(pf['share_pct'][p]),
                  f"{pr['contrib_mean'][p]:+.3f}", pct(pr['share_pct'][p]),
                  f"{D['delta_parts'][p]:+.3f}"])
 y2 = table(s, MARGIN, b + 0.10, CW, rows,
-           col_w=[1.7, 2.0, 1.2, 2.0, 1.2, 1.8], row_h=0.275)
+           col_w=[1.9, 1.9, 1.2, 1.9, 1.2, 1.8], row_h=0.275)
 tb(s, MARGIN, y2 + 0.10, CW, 0.85,
-   [f"- MAIN CAUSE of the FAKE verdict: the EYES \u2014 {pct(pf['share_pct']['eyes'])} of the "
-    f"spatial evidence, then skin {pct(pf['share_pct']['skin'])}.",
-    f"- In the real video the nose votes REAL ({pr['contrib_mean']['nose']:+.3f}); after the swap "
-    f"every component turns towards FAKE, the nose shifting most ({D['delta_parts']['nose']:+.3f})."],
+   [f"- MAIN CAUSE of the FAKE verdict: the EYES query \u2014 "
+    f"{pct(pf['share_pct']['eyes'])} of the spatial evidence, then skin "
+    f"{pct(pf['share_pct']['skin'])}.",
+    "- Caveat: a query is a learned embedding that attends over ALL 256 patches, so this is "
+    "a FEATURE-space split, not a face-region split. Next slide does it by region."],
    12, False, INK, line=1.26)
+
+# ================================================== 7 region-based (patches)
+s = slide()
+y = title(s, "Why it said YES \u2014 view 2: patches grouped by face region",
+          "Cut the 16\u00d716 patch grid into landmark-defined regions, then attribute each region",
+          "result 3b")
+b, _, _ = pic_fit(s, "f11_regions.png", MARGIN, y, CW, 3.15)
+rows = [["face region", "patches", "FAKE share", "FAKE signed", "REAL share", "REAL signed"]]
+for r_ in ("eyes", "nose", "lips", "skin"):
+    rows.append([r_, G_F["patch_counts"][r_],
+                 pct(G_F["spatial_region_share_pct"][r_]),
+                 f"{G_F['spatial_region_signed'][r_]:+.4f}",
+                 pct(G_R["spatial_region_share_pct"][r_]),
+                 f"{G_R['spatial_region_signed'][r_]:+.4f}"])
+y2 = table(s, MARGIN, b + 0.10, CW, rows,
+           col_w=[1.6, 1.1, 1.5, 1.7, 1.5, 1.7], row_h=0.275)
+tb(s, MARGIN, y2 + 0.10, CW, 0.85,
+   [f"- Same conclusion, now spatially localised: the EYE patches carry "
+    f"{pct(G_F['spatial_region_share_pct']['eyes'])} of the FAKE evidence, skin "
+    f"{pct(G_F['spatial_region_share_pct']['skin'])}.",
+    f"- In the REAL video the NOSE patches dominate "
+    f"({pct(G_R['spatial_region_share_pct']['nose'])}) and vote REAL "
+    f"({G_R['spatial_region_signed']['nose']:+.4f}). Exact: contributions sum to the head "
+    f"logit (error {G_F['additivity_check']['abs_err']:.0e})."],
+   12, False, INK, line=1.26)
+
+# ============================ 8 cross-validation + branch comparison
+s = slide()
+y = title(s, "Do the two views agree? And where does each branch look?",
+          "Validating the region attribution, and comparing both branches on identical regions",
+          "result 3c")
+b, _, _ = pic_fit(s, "f12_region_validation.png", MARGIN, y, CW, 2.75)
+yy = b + 0.12
+rows = [["query (named)", "evidence from its OWN region", "strongest region", "verdict"]]
+for q in ("eyes", "skin", "lips", "nose"):
+    p_own = G_F["query_self_region_pct"][q]
+    cr = {k: abs(v) for k, v in G_F["query_region_cross"][q].items() if k != "background"}
+    top = max(cr, key=cr.get)
+    rows.append([q, f"{p_own:.1f}%", top,
+                 "localised \u2713" if top == q else "DRIFTED \u2717"])
+y2 = table(s, MARGIN, yy, 6.1, rows, col_w=[1.5, 2.3, 1.5, 1.4], row_h=0.26)
+tb(s, 6.95, yy, 5.76, 1.6,
+   ["Two findings:",
+    "- Both decompositions agree EYES dominate the fake \u2014 independent methods, "
+    "same conclusion.",
+    "- 3 of 4 FCG queries sit on their own anatomy; the NOSE query drifts onto "
+    "SKIN once the face is swapped (86% \u2192 9%)."],
+   11, False, INK, line=1.2)
+tb(s, MARGIN, yy + 1.42, CW, 0.62,
+   [f"- The branches read DIFFERENT regions: for the fake, spatial favours eyes "
+    f"({pct(G_F['spatial_region_share_pct']['eyes'])}) while temporal favours skin "
+    f"({pct(G_F['temporal_region_share_pct']['skin'])}) \u2014 they are not duplicating "
+    f"each other."],
+   11, False, INK, line=1.2)
 
 # ===================================================================== 7 temporal maps
 s = slide()
@@ -412,27 +470,30 @@ card(s, MARGIN, y, 5.95, 2.15,
      f"When it says FAKE   (P = {V_F['prob']['final_mean']:.3f})",
      f"spatial {pct(V_F['branch_shapley']['pct_spatial_mean'])} / temporal "
      f"{pct(V_F['branch_shapley']['pct_temporal_mean'])}",
-     f"MAIN CAUSE: the EYES \u2014 {pct(V_F['spatial_parts']['share_pct']['eyes'])} of the spatial "
-     f"evidence, then skin {pct(V_F['spatial_parts']['share_pct']['skin'])}.\n"
-     f"Temporal evidence appears in the inner face "
-     f"({', '.join(D['zone_density_delta_top'][:2])}) \u2014 the region the swap replaced.\n"
+     f"MAIN CAUSE: the EYES. By face region "
+     f"{pct(G_F['spatial_region_share_pct']['eyes'])} of the spatial evidence; by the model's "
+     f"own query {pct(V_F['spatial_parts']['share_pct']['eyes'])}. Two independent methods agree.\n"
+     f"Second is skin ({pct(G_F['spatial_region_share_pct']['skin'])}), which is also where the "
+     f"temporal branch looks ({pct(G_F['temporal_region_share_pct']['skin'])}).\n"
      f"All 60 clips agree; either branch alone suffices.", ORNG, 15)
 card(s, 6.76, y, 5.95, 2.15,
      f"When it says REAL   (P = {V_R['prob']['final_mean']:.3f})",
      f"temporal {pct(V_R['branch_shapley']['pct_temporal_mean'])} / spatial "
      f"{pct(V_R['branch_shapley']['pct_spatial_mean'])}",
      f"MAIN CAUSE: temporal consistency \u2014 motion is coherent across frames.\n"
-     f"Within the spatial branch the nose is the strongest REAL vote "
-     f"({V_R['spatial_parts']['contrib_mean']['nose']:+.3f}, "
-     f"{pct(V_R['spatial_parts']['share_pct']['nose'])}).\n"
+     f"Within the spatial branch the NOSE patches dominate "
+     f"({pct(G_R['spatial_region_share_pct']['nose'])}) and vote REAL "
+     f"({G_R['spatial_region_signed']['nose']:+.3f}).\n"
      f"Lower margin: 7 of 60 clips cross the threshold.", BLUE, 15)
 tb(s, MARGIN, y + 2.36, CW, 2.5,
    ["What this tells us about the model",
-    "- Fake detection is driven by the EYES; authenticity is confirmed by MOTION CONSISTENCY \u2014 "
-    "the two verdicts are not mirror images.",
-    "- The spatial branch reads deep semantic layers, the temporal branch also reads shallow "
-    "texture layers, so the frozen encoder is genuinely used at two depths.",
-    "- On clean video the branches are redundant, so fusion adds confidence rather than coverage.",
+    f"- Fake detection is driven by the EYES ({pct(G_F['spatial_region_share_pct']['eyes'])} of "
+    f"spatial evidence); authenticity is confirmed by MOTION CONSISTENCY "
+    f"({pct(V_R['branch_shapley']['pct_temporal_mean'])}) \u2014 the two verdicts are not mirror images.",
+    "- The two branches look at different regions (spatial \u2192 eyes, temporal \u2192 skin), so they "
+    "are genuinely reading different evidence even though either alone suffices on clean video.",
+    "- Facial Component Guidance mostly works: 3 of 4 queries sit on their own anatomy, but the "
+    "nose query drifts onto skin once the face is swapped.",
     f"- The real weakness is QUALITY, not forgery type: {RS['false_positives']}/21 degraded "
     f"conditions raised a false alarm, because blur and compression push scores towards FAKE.",
     "- Practical consequence: a quality-aware threshold or compression augmentation would help "
@@ -448,23 +509,28 @@ tb(s, MARGIN, y, 5.95, 4.4,
     f"{R['instrumentation_max_logit_error']:.0e} \u2014 we are explaining the real checkpoint.",
     "- Contributions form an exact additive split, verified to 1e-16 in float64; they sum to the "
     "model's own logit with no residual.",
+    f"- The region decomposition reproduces the spatial head logit to "
+    f"{G_F['additivity_check']['abs_err']:.0e}.",
+    "- TWO INDEPENDENT decompositions (by model query, and by landmark-defined patch region) "
+    "agree that the eyes dominate the fake verdict.",
     "- Shapley efficiency holds exactly: \u03c6_S + \u03c6_T = P_final \u2212 0.5.",
-    "- All 569 checkpoint tensors load with 0 missing and 0 unexpected keys; every trainable "
-    "weight comes from the released file.",
-    "- Labels verified from FaceForensics++ naming and confirmed visually: the difference between "
-    "the pair is confined to the inner face, 22.7\u00d7 the background difference."],
-   11.5, False, INK, line=1.27)
+    "- All 569 checkpoint tensors load with 0 missing and 0 unexpected keys.",
+    "- Labels verified from FaceForensics++ naming and visually: the difference between the pair "
+    "is confined to the inner face, 22.7\u00d7 the background difference."],
+   11, False, INK, line=1.24)
 tb(s, 6.76, y, 5.95, 4.4,
    ["Limitations stated honestly",
     "- Two videos only. These are the samples shipped with the repository; FaceForensics++, "
     "Celeb-DF and DFDC are EULA-gated and cannot be downloaded without a signed agreement, so no "
     "cross-dataset generalisation is claimed.",
+    "- Region boundaries come from nearest-landmark assignment on a 16\u00d716 grid, so a patch "
+    "straddling two regions is assigned to one. The per-patch contributions are exact; the "
+    "grouping into regions is the approximate step.",
     "- Single-branch numbers are inference-time ablations of this checkpoint, not models "
     "re-trained with op_mode=[S] or [T], which would converge to different weights.",
-    "- Patch-to-zone mapping uses nearest-landmark assignment on a 16\u00d716 grid, so zone "
-    "boundaries are approximate even though patch contributions are exact.",
-    "- The robustness sweep uses 8 clips per condition; the main analysis uses 60."],
-   11.5, False, INK, line=1.27)
+    "- The robustness sweep uses 8 clips per condition; the main analysis 60, the region "
+    "analysis 30."],
+   11, False, INK, line=1.24)
 
 # ===================================================================== 15 reproduce
 s = slide()
@@ -476,14 +542,16 @@ tb(s, MARGIN, y, CW, 4.5,
     "3.  exactness self-test           python xai/smoke.py",
     "4.  main analysis, 60 clips/video python xai/run_analysis.py --max-clips 60",
     "5.  figures + derived metrics     python xai/make_figures.py",
-    "6.  robustness sweep              python xai/run_robustness.py --levels 1 3 5",
-    "7.  audits                        python xai/audit/audit_math2.py , audit_pipeline.py",
-    "8.  deck                          python xai/build_deck.py",
+    "6.  REGION analysis (by patches)  python xai/run_region_analysis.py --max-clips 30",
+    "7.  region figures                python xai/make_region_figures.py",
+    "8.  robustness sweep              python xai/run_robustness.py --levels 1 3 5",
+    "9.  audits                        python xai/audit/audit_math2.py , audit_pipeline.py",
+    "10. deck                          python xai/build_deck.py",
     "",
     "Environment: Windows, RTX 3050 Ti 4 GB (peak 2.5 GB at batch size 2), torch 2.6 + CUDA 12.4.",
-    "Outputs: xai/out/{report,derived,robustness}.json + arrays.npz; figures in xai/figs/.",
+    "Outputs: xai/out/{report,derived,regions,robustness}.json + arrays.npz, regions.npz.",
     "Checkpoint: released FFG ViT-L/14 weights from the authors' Google Drive link."],
-   12, False, INK, line=1.3)
+   11.5, False, INK, line=1.28)
 tb(s, MARGIN, 6.62, CW, 0.45,
    "Han, Huang, Hua, Chen \u2014 Towards More General Video-based Deepfake Detection through Facial "
    "Component Guided Adaptation for Foundation Model, CVPR 2025  \u00b7  arXiv:2404.05583",
