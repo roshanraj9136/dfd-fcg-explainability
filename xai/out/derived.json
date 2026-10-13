@@ -1,0 +1,113 @@
+{
+  "zone_density": {
+    "000": {
+      "eyes": 0.014958348117101916,
+      "brows": 0.02633418961453447,
+      "nose": 0.03422561193529525,
+      "mouth": 0.024405044783869366,
+      "jaw/contour": 0.04878915645619871,
+      "cheek/forehead": 0.040275217360730545,
+      "background": 0.029953478383086166
+    },
+    "000_003": {
+      "eyes": 0.03991274898045356,
+      "brows": 0.023214368026461565,
+      "nose": 0.053918475082260525,
+      "mouth": 0.0236560852553167,
+      "jaw/contour": 0.03056784661925776,
+      "cheek/forehead": 0.03011397618125249,
+      "background": 0.03219027029368832
+    }
+  },
+  "zone_abs_sum": {
+    "000": {
+      "eyes": 0.2991669623420383,
+      "brows": 0.6583547403633617,
+      "nose": 0.5818354029000192,
+      "mouth": 0.4881008956773873,
+      "jaw/contour": 2.8297710744595252,
+      "cheek/forehead": 2.21513695484018,
+      "background": 1.8271621813682561
+    },
+    "000_003": {
+      "eyes": 0.7583422306286177,
+      "brows": 0.5571448326350775,
+      "nose": 0.8626956013161684,
+      "mouth": 0.6150582166382341,
+      "jaw/contour": 1.9257743370132387,
+      "cheek/forehead": 1.3250149519751095,
+      "background": 2.0601772987960523
+    }
+  },
+  "zone_patch_counts": {
+    "000": {
+      "eyes": 20,
+      "brows": 25,
+      "nose": 17,
+      "mouth": 20,
+      "jaw/contour": 58,
+      "cheek/forehead": 55,
+      "background": 61
+    },
+    "000_003": {
+      "eyes": 19,
+      "brows": 24,
+      "nose": 16,
+      "mouth": 26,
+      "jaw/contour": 63,
+      "cheek/forehead": 44,
+      "background": 64
+    }
+  },
+  "zone_density_delta": {
+    "eyes": 0.02495440086335165,
+    "brows": -0.0031198215880729047,
+    "nose": 0.019692863146965278,
+    "mouth": -0.0007489595285526673,
+    "jaw/contour": -0.018221309836940952,
+    "cheek/forehead": -0.010161241179478055,
+    "background": 0.002236791910602151
+  },
+  "zone_density_delta_top": [
+    "eyes",
+    "nose",
+    "mouth"
+  ],
+  "zone_density_dominant": {
+    "000": "jaw/contour",
+    "000_003": "nose"
+  },
+  "delta_parts": {
+    "lips": 0.11177788099944692,
+    "skin": 0.5376296653717568,
+    "eyes": 0.7940686410333417,
+    "nose": 1.039316715602974
+  },
+  "delta_parts_top": "nose",
+  "counterfactual": {
+    "000": {
+      "spatial_only_mean": 0.4688989820013662,
+      "temporal_only_mean": 0.4109141083464944,
+      "full_mean": 0.42074925324790563,
+      "spatial_only_verdict": "REAL",
+      "temporal_only_verdict": "REAL",
+      "full_verdict": "REAL",
+      "spatial_only_correct": true,
+      "temporal_only_correct": true,
+      "both_branches_individually_sufficient": true,
+      "clip_branch_agreement_pct": 86.66666666666667
+    },
+    "000_003": {
+      "spatial_only_mean": 0.9117506448101322,
+      "temporal_only_mean": 0.9084771194920549,
+      "full_mean": 0.9317005271478405,
+      "spatial_only_verdict": "FAKE",
+      "temporal_only_verdict": "FAKE",
+      "full_verdict": "FAKE",
+      "spatial_only_correct": true,
+      "temporal_only_correct": true,
+      "both_branches_individually_sufficient": true,
+      "clip_branch_agreement_pct": 100.0
+    }
+  }
+}

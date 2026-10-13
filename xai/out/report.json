@@ -1,0 +1,207 @@
+{
+  "model": {
+    "architecture": "ViT-L/14",
+    "num_frames": 10,
+    "op_mode": [
+      "S",
+      "T"
+    ],
+    "face_parts": [
+      "lips",
+      "skin",
+      "eyes",
+      "nose"
+    ],
+    "clip_layers": 24,
+    "spatial_dim": 1024,
+    "temporal_dim": 256,
+    "params_total": 303430054,
+    "params_trainable": 250278,
+    "checkpoint": "released FFG ViT-L/14 (trained on FaceForensics++ c23)"
+  },
+  "videos": {
+    "000": {
+      "ground_truth": "REAL",
+      "verdict": "REAL",
+      "correct": true,
+      "n_clips": 60,
+      "clip_level_accuracy": 88.33,
+      "fps": 25.0,
+      "n_frames": 396,
+      "prob": {
+        "final_mean": 0.42074925324790563,
+        "final_std": 0.057141155766182436,
+        "final_min": 0.2914553929421943,
+        "final_max": 0.5402436601118166,
+        "final_median": 0.4197001212691446,
+        "spatial_mean": 0.4688989820013662,
+        "temporal_mean": 0.4109141083464944,
+        "fusion_mean": 0.38238716294575126
+      },
+      "branch_shapley": {
+        "phi_spatial_mean": -0.010632936548611312,
+        "phi_temporal_mean": -0.06861781020348309,
+        "pct_spatial_mean": 29.085801156769037,
+        "pct_spatial_std": 28.297076190783816,
+        "pct_temporal_mean": 70.91419884323096,
+        "pct_temporal_std": 28.297076190783816,
+        "clips_spatial_dominant": 13,
+        "clips_temporal_dominant": 47
+      },
+      "branch_logit": {
+        "d_spatial_mean": -0.12495245307631829,
+        "d_temporal_mean": -0.3745376766775793,
+        "d_fusion_mean": -0.49167953375015666,
+        "fusion_spatial_term_mean": 0.23923758221485664,
+        "fusion_temporal_term_mean": -0.7481429793770358,
+        "pct_spatial_mean": 22.04012744445805,
+        "pct_temporal_mean": 77.95987255554195
+      },
+      "spatial_parts": {
+        "contrib_mean": {
+          "lips": 0.07147324804195888,
+          "skin": 0.07945348484856796,
+          "eyes": 0.24451265455315369,
+          "nose": -0.6010037280985773
+        },
+        "share_pct": {
+          "lips": 7.172837759339992,
+          "skin": 7.973710050204913,
+          "eyes": 24.538546229012937,
+          "nose": 60.314905961442165
+        },
+        "dominant": "nose"
+      },
+      "temporal_zones": {
+        "signed": {
+          "eyes": -0.139960487000814,
+          "brows": 0.1590040641840109,
+          "nose": -0.1245630456160441,
+          "mouth": -0.15906696108034857,
+          "jaw/contour": 0.39713598263151234,
+          "cheek/forehead": -1.40476077066789,
+          "background": 0.9278461742846583
+        },
+        "abs": {
+          "eyes": 0.2991669623420383,
+          "brows": 0.6583547403633617,
+          "nose": 0.5818354029000192,
+          "mouth": 0.4881008956773873,
+          "jaw/contour": 2.8297710744595252,
+          "cheek/forehead": 2.21513695484018,
+          "background": 1.8271621813682561
+        },
+        "dominant": "jaw/contour",
+        "dominant_face_only": "jaw/contour"
+      },
+      "layers": {
+        "spatial_top": [
+          23,
+          21,
+          19,
+          22,
+          20
+        ],
+        "temporal_top": [
+          4,
+          21,
+          7,
+          2,
+          14
+        ]
+      }
+    },
+    "000_003": {
+      "ground_truth": "FAKE",
+      "verdict": "FAKE",
+      "correct": true,
+      "n_clips": 60,
+      "clip_level_accuracy": 100.0,
+      "fps": 25.0,
+      "n_frames": 396,
+      "prob": {
+        "final_mean": 0.9317005271478405,
+        "final_std": 0.01361360845799083,
+        "final_min": 0.871232151483767,
+        "final_max": 0.9503472007039866,
+        "final_median": 0.9347584613606621,
+        "spatial_mean": 0.9117506448101322,
+        "temporal_mean": 0.9084771194920549,
+        "fusion_mean": 0.9751328413881546
+      },
+      "branch_shapley": {
+        "phi_spatial_mean": 0.21748702623295893,
+        "phi_temporal_mean": 0.21421350091488156,
+        "pct_spatial_mean": 50.38376967031807,
+        "pct_spatial_std": 2.9866717856712457,
+        "pct_temporal_mean": 49.61623032968193,
+        "pct_temporal_std": 2.9866717856712452,
+        "clips_spatial_dominant": 33,
+        "clips_temporal_dominant": 27
+      },
+      "branch_logit": {
+        "d_spatial_mean": 2.3578404499312016,
+        "d_temporal_mean": 2.3179686929425127,
+        "d_fusion_mean": 3.724890289775445,
+        "fusion_spatial_term_mean": 2.002697979942491,
+        "fusion_temporal_term_mean": 1.7049664464209315,
+        "pct_spatial_mean": 52.06469418014434,
+        "pct_temporal_mean": 47.93530581985566
+      },
+      "spatial_parts": {
+        "contrib_mean": {
+          "lips": 0.1832511290414058,
+          "skin": 0.6170831502203248,
+          "eyes": 1.0385812955864955,
+          "nose": 0.4383129875043967
+        },
+        "share_pct": {
+          "lips": 8.047111830183951,
+          "skin": 27.097989214697506,
+          "eyes": 45.6072487740769,
+          "nose": 19.247650181041646
+        },
+        "dominant": "eyes"
+      },
+      "temporal_zones": {
+        "signed": {
+          "eyes": 0.2307479363863869,
+          "brows": 0.07004110473561523,
+          "nose": 0.06629555869179896,
+          "mouth": 0.20715192798867343,
+          "jaw/contour": 0.2643622570990907,
+          "cheek/forehead": 0.38972446590910803,
+          "background": 1.1198180755445035
+        },
+        "abs": {
+          "eyes": 0.7583422306286177,
+          "brows": 0.5571448326350775,
+          "nose": 0.8626956013161684,
+          "mouth": 0.6150582166382341,
+          "jaw/contour": 1.9257743370132387,
+          "cheek/forehead": 1.3250149519751095,
+          "background": 2.0601772987960523
+        },
+        "dominant": "background",
+        "dominant_face_only": "jaw/contour"
+      },
+      "layers": {
+        "spatial_top": [
+          19,
+          17,
+          20,
+          15,
+          18
+        ],
+        "temporal_top": [
+          4,
+          18,
+          8,
+          21,
+          23
+        ]
+      }
+    }
+  },
+  "instrumentation_max_logit_error": 8.940696716308594e-08
+}

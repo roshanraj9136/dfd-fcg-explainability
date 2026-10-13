@@ -1,0 +1,1358 @@
+{
+  "protocol": "DFD-FCG paper robustness protocol (src/preprocess/robustness), applied to the bundled FaceForensics++ sample pair",
+  "params": {
+    "CS": [
+      0.4,
+      0.3,
+      0.2,
+      0.1,
+      0.0
+    ],
+    "CC": [
+      0.85,
+      0.725,
+      0.6,
+      0.475,
+      0.35
+    ],
+    "BW": [
+      16,
+      32,
+      48,
+      64,
+      80
+    ],
+    "GNC": [
+      0.001,
+      0.002,
+      0.005,
+      0.01,
+      0.05
+    ],
+    "GB": [
+      7,
+      9,
+      13,
+      17,
+      21
+    ],
+    "JPEG": [
+      2,
+      3,
+      4,
+      5,
+      6
+    ],
+    "VC": [
+      30,
+      32,
+      35,
+      38,
+      40
+    ]
+  },
+  "names": {
+    "CS": "colour saturation",
+    "CC": "colour contrast",
+    "BW": "block-wise noise",
+    "GNC": "Gaussian noise",
+    "GB": "Gaussian blur",
+    "JPEG": "down/up-sampling (JPEG-like)",
+    "VC": "video compression (H.264 CRF)"
+  },
+  "clean": {
+    "000": {
+      "ground_truth": "REAL",
+      "p_final": 0.40783153023129304,
+      "p_spatial": 0.46751650694007224,
+      "p_temporal": 0.38963524051908194,
+      "p_fusion": 0.3662875361907625,
+      "verdict": "REAL",
+      "correct": true,
+      "clip_accuracy": 87.5,
+      "pct_spatial": 27.921357211525237,
+      "pct_temporal": 72.07864278847477,
+      "parts": {
+        "lips": 0.08348804983566566,
+        "skin": 0.07331981855083312,
+        "eyes": 0.23182953307001972,
+        "nose": -0.5997094934065429
+      },
+      "parts_share": {
+        "lips": 8.447241577789669,
+        "skin": 7.41842959510606,
+        "eyes": 23.456291943138083,
+        "nose": 60.678036883966186
+      },
+      "dominant_part": "nose",
+      "n_clips": 8
+    },
+    "000_003": {
+      "ground_truth": "FAKE",
+      "p_final": 0.9313079138866471,
+      "p_spatial": 0.9107045221076419,
+      "p_temporal": 0.9088289476100841,
+      "p_fusion": 0.9746490657794107,
+      "verdict": "FAKE",
+      "correct": true,
+      "clip_accuracy": 100.0,
+      "pct_spatial": 50.18266444135811,
+      "pct_temporal": 49.81733555864189,
+      "parts": {
+        "lips": 0.2039923435926825,
+        "skin": 0.6082845272430654,
+        "eyes": 1.0263692208360105,
+        "nose": 0.4332517772150436
+      },
+      "parts_share": {
+        "lips": 8.978939871651708,
+        "skin": 26.774290146287086,
+        "eyes": 45.176732409142886,
+        "nose": 19.070037572918313
+      },
+      "dominant_part": "eyes",
+      "n_clips": 8
+    }
+  },
+  "conditions": {
+    "CS_1": {
+      "type": "CS",
+      "level": 1,
+      "param": 0.4,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.46915923841445906,
+          "p_spatial": 0.5641530996646609,
+          "p_temporal": 0.4230114267978641,
+          "p_fusion": 0.4202946807846951,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 62.5,
+          "pct_spatial": 44.83356266107556,
+          "pct_temporal": 55.16643733892444,
+          "parts": {
+            "lips": 0.27831163530735054,
+            "skin": 0.11632786858252081,
+            "eyes": 0.2553997641845749,
+            "nose": -0.4713681490794791
+          },
+          "parts_share": {
+            "lips": 24.81806621305317,
+            "skin": 10.37338141366632,
+            "eyes": 22.77493088397493,
+            "nose": 42.03362148930559
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.9200961974907074,
+          "p_spatial": 0.894849345946049,
+          "p_temporal": 0.903499146710546,
+          "p_fusion": 0.9621921526441155,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 49.01195889303509,
+          "pct_temporal": 50.9880411069649,
+          "parts": {
+            "lips": 0.12296689239695666,
+            "skin": 0.5908067029195422,
+            "eyes": 0.9345419543335818,
+            "nose": 0.4197784726044586
+          },
+          "parts_share": {
+            "lips": 5.945904348338278,
+            "skin": 28.567690664057544,
+            "eyes": 45.18856223542428,
+            "nose": 20.297842752179893
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "CS_3": {
+      "type": "CS",
+      "level": 3,
+      "param": 0.2,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.5729047091359075,
+          "p_spatial": 0.5850754426722043,
+          "p_temporal": 0.5792405391404822,
+          "p_fusion": 0.5544418839285348,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 25.0,
+          "pct_spatial": 28.727321860526835,
+          "pct_temporal": 71.27267813947316,
+          "parts": {
+            "lips": 0.27362107882582265,
+            "skin": 0.15097240931474884,
+            "eyes": 0.31024284081037223,
+            "nose": -0.46997604471874765
+          },
+          "parts_share": {
+            "lips": 22.710679671425584,
+            "skin": 12.530781772676173,
+            "eyes": 25.750303332743467,
+            "nose": 39.00823522315477
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.9298529720483562,
+          "p_spatial": 0.9043566415865816,
+          "p_temporal": 0.914522207307879,
+          "p_fusion": 0.9709379729804952,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 48.847362014542504,
+          "pct_temporal": 51.152637985457496,
+          "parts": {
+            "lips": 0.14425887338066945,
+            "skin": 0.6435196350450355,
+            "eyes": 0.9350240037197323,
+            "nose": 0.44791243325675073
+          },
+          "parts_share": {
+            "lips": 6.645684809340146,
+            "skin": 29.645515474432997,
+            "eyes": 43.07447210884209,
+            "nose": 20.634327607384765
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "CS_5": {
+      "type": "CS",
+      "level": 5,
+      "param": 0.0,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.7212548458120231,
+          "p_spatial": 0.7489081669688181,
+          "p_temporal": 0.6820408841882204,
+          "p_fusion": 0.732948222284143,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 0.0,
+          "pct_spatial": 58.01030833447791,
+          "pct_temporal": 41.98969166552209,
+          "parts": {
+            "lips": 0.35333059301708236,
+            "skin": 0.3482702582338235,
+            "eyes": 0.5442555083136658,
+            "nose": -0.22924507621472395
+          },
+          "parts_share": {
+            "lips": 23.95296922956474,
+            "skin": 23.609919276489105,
+            "eyes": 36.8961411813782,
+            "nose": 15.54097031256795
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.9436244392238586,
+          "p_spatial": 0.9379665759788631,
+          "p_temporal": 0.9174911028505117,
+          "p_fusion": 0.9756818184507394,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 52.32898337679708,
+          "pct_temporal": 47.67101662320292,
+          "parts": {
+            "lips": 0.23001590284231335,
+            "skin": 0.7213884403047481,
+            "eyes": 1.1081782120476003,
+            "nose": 0.5888468403521783
+          },
+          "parts_share": {
+            "lips": 8.684992819860328,
+            "skin": 27.238348944386264,
+            "eyes": 41.842845193869586,
+            "nose": 22.233813041883828
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "CC_1": {
+      "type": "CC",
+      "level": 1,
+      "param": 0.85,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.44287272638644054,
+          "p_spatial": 0.5727451330297904,
+          "p_temporal": 0.3635305516704448,
+          "p_fusion": 0.3923082701289953,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 37.51526454193424,
+          "pct_temporal": 62.48473545806575,
+          "parts": {
+            "lips": 0.18473154983598356,
+            "skin": 0.13403305951388447,
+            "eyes": 0.2917316789467486,
+            "nose": -0.3973359392487441
+          },
+          "parts_share": {
+            "lips": 18.32959343698593,
+            "skin": 13.299144029193277,
+            "eyes": 28.946452690571284,
+            "nose": 39.4248098432495
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.8980010959140063,
+          "p_spatial": 0.8703105338162873,
+          "p_temporal": 0.8800992742655557,
+          "p_fusion": 0.9438322738296963,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 48.86257744416986,
+          "pct_temporal": 51.137422555830135,
+          "parts": {
+            "lips": 0.0920889539429304,
+            "skin": 0.47655889047331973,
+            "eyes": 0.9017337634764888,
+            "nose": 0.36916526118742243
+          },
+          "parts_share": {
+            "lips": 5.006067281611484,
+            "skin": 25.90631956616664,
+            "eyes": 49.01934159075749,
+            "nose": 20.06827156146438
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "CC_3": {
+      "type": "CC",
+      "level": 3,
+      "param": 0.6,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.481679748145866,
+          "p_spatial": 0.6094184616028845,
+          "p_temporal": 0.40773415527413776,
+          "p_fusion": 0.4278756260112242,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 37.5,
+          "pct_spatial": 48.40945097475283,
+          "pct_temporal": 51.59054902524717,
+          "parts": {
+            "lips": 0.20253981004879354,
+            "skin": 0.19242118476675515,
+            "eyes": 0.295489948160975,
+            "nose": -0.3240998486576925
+          },
+          "parts_share": {
+            "lips": 19.963496329498383,
+            "skin": 18.966146037578593,
+            "eyes": 29.12520009816426,
+            "nose": 31.94515753475876
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.8556934272406334,
+          "p_spatial": 0.8200581859656196,
+          "p_temporal": 0.8465025306126,
+          "p_fusion": 0.9007330014195407,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 46.32626892348169,
+          "pct_temporal": 53.67373107651831,
+          "parts": {
+            "lips": -0.00392726344136647,
+            "skin": 0.4248142614049225,
+            "eyes": 0.8093851387587678,
+            "nose": 0.21576006937325423
+          },
+          "parts_share": {
+            "lips": 0.2701216918955857,
+            "skin": 29.219213008064493,
+            "eyes": 55.67043982172731,
+            "nose": 14.840225478312618
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "CC_5": {
+      "type": "CC",
+      "level": 5,
+      "param": 0.35,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.5345179230977394,
+          "p_spatial": 0.6381557173865231,
+          "p_temporal": 0.4775436462787256,
+          "p_fusion": 0.48787507393364554,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 25.0,
+          "pct_spatial": 54.93386662977299,
+          "pct_temporal": 45.06613337022701,
+          "parts": {
+            "lips": 0.2637819936265307,
+            "skin": 0.2573979920353593,
+            "eyes": 0.2765762195851597,
+            "nose": -0.30779961435088254
+          },
+          "parts_share": {
+            "lips": 23.859672117004706,
+            "skin": 23.282224874811806,
+            "eyes": 25.016938510236848,
+            "nose": 27.841164497946643
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.8206588455646228,
+          "p_spatial": 0.7735395768911327,
+          "p_temporal": 0.8294349252952941,
+          "p_fusion": 0.8591944088654881,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 41.9400009808777,
+          "pct_temporal": 58.05999901912231,
+          "parts": {
+            "lips": -0.06639468997842982,
+            "skin": 0.4595807173232407,
+            "eyes": 0.6947186993619678,
+            "nose": 0.06476589173738231
+          },
+          "parts_share": {
+            "lips": 5.165052981891147,
+            "skin": 35.75223794555347,
+            "eyes": 54.04436545875609,
+            "nose": 5.0383436137992925
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "BW_1": {
+      "type": "BW",
+      "level": 1,
+      "param": 16,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.4584802750027088,
+          "p_spatial": 0.5666558986109542,
+          "p_temporal": 0.4036478439121566,
+          "p_fusion": 0.4051122082014602,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 75.0,
+          "pct_spatial": 39.45231369891503,
+          "pct_temporal": 60.54768630108497,
+          "parts": {
+            "lips": 0.1620078986605456,
+            "skin": 0.13745081572654483,
+            "eyes": 0.2632421177950987,
+            "nose": -0.3736530171777992
+          },
+          "parts_share": {
+            "lips": 17.301995262931893,
+            "skin": 14.679366760813178,
+            "eyes": 28.113529727573457,
+            "nose": 39.90510824868147
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.9195500391168732,
+          "p_spatial": 0.9039392598259925,
+          "p_temporal": 0.8907741387282188,
+          "p_fusion": 0.9641884587480007,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 51.56846509933339,
+          "pct_temporal": 48.43153490066661,
+          "parts": {
+            "lips": 0.16771121423582758,
+            "skin": 0.5484571138859413,
+            "eyes": 0.9557114043516111,
+            "nose": 0.5013974913893966
+          },
+          "parts_share": {
+            "lips": 7.716972892107072,
+            "skin": 25.236408308329633,
+            "eyes": 43.97558644878873,
+            "nose": 23.07103235077457
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "BW_3": {
+      "type": "BW",
+      "level": 3,
+      "param": 48,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.4236421637124673,
+          "p_spatial": 0.5638203812390857,
+          "p_temporal": 0.33693848014092254,
+          "p_fusion": 0.3701218748620484,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 33.37855131162942,
+          "pct_temporal": 66.62144868837058,
+          "parts": {
+            "lips": 0.13365933832786145,
+            "skin": 0.19153980707006285,
+            "eyes": 0.24365716460630318,
+            "nose": -0.3917048855891308
+          },
+          "parts_share": {
+            "lips": 13.914713496759292,
+            "skin": 19.94040649869734,
+            "eyes": 25.366126148349267,
+            "nose": 40.77875385619411
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.9038809284376998,
+          "p_spatial": 0.901602169329726,
+          "p_temporal": 0.8581008774865341,
+          "p_fusion": 0.9521820749011835,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 55.429692177461405,
+          "pct_temporal": 44.570307822538595,
+          "parts": {
+            "lips": 0.1451614744591781,
+            "skin": 0.5557514130425035,
+            "eyes": 0.9313207548172069,
+            "nose": 0.5212220183726326
+          },
+          "parts_share": {
+            "lips": 6.74086200653714,
+            "skin": 25.807423072924554,
+            "eyes": 43.24773301894406,
+            "nose": 24.203981901594247
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "BW_5": {
+      "type": "BW",
+      "level": 5,
+      "param": 80,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.4251277089239819,
+          "p_spatial": 0.5721787170189154,
+          "p_temporal": 0.3371625171042077,
+          "p_fusion": 0.36599702399617745,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 87.5,
+          "pct_spatial": 35.580999156294496,
+          "pct_temporal": 64.4190008437055,
+          "parts": {
+            "lips": 0.1383752654203826,
+            "skin": 0.21115565482914728,
+            "eyes": 0.2516094066919046,
+            "nose": -0.3894683264721782
+          },
+          "parts_share": {
+            "lips": 13.96871155360342,
+            "skin": 21.315749070181266,
+            "eyes": 25.399475950958525,
+            "nose": 39.31606342525679
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.8910784075645946,
+          "p_spatial": 0.884524728038526,
+          "p_temporal": 0.8516856951311604,
+          "p_fusion": 0.9372594497144299,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 54.42365524678537,
+          "pct_temporal": 45.57634475321463,
+          "parts": {
+            "lips": 0.09792847203058698,
+            "skin": 0.5055152828955793,
+            "eyes": 0.8851001525826209,
+            "nose": 0.4786495908455154
+          },
+          "parts_share": {
+            "lips": 4.97808030132832,
+            "skin": 25.697283125349838,
+            "eyes": 44.993039745356526,
+            "nose": 24.331596827965313
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "GNC_1": {
+      "type": "GNC",
+      "level": 1,
+      "param": 0.001,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.19314214291647477,
+          "p_spatial": 0.2849077421527139,
+          "p_temporal": 0.15123162388737194,
+          "p_fusion": 0.1431029406634666,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 28.109723553883768,
+          "pct_temporal": 71.89027644611623,
+          "parts": {
+            "lips": -0.04354075489401492,
+            "skin": -0.37152271176968704,
+            "eyes": 0.042096852372833234,
+            "nose": -0.6326904056177545
+          },
+          "parts_share": {
+            "lips": 3.995111799171068,
+            "skin": 34.089320983617945,
+            "eyes": 3.8626255339864755,
+            "nose": 58.05294168322451
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.5681807728737209,
+          "p_spatial": 0.5638415863207873,
+          "p_temporal": 0.5179234208499441,
+          "p_fusion": 0.6228181510721671,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 59.88732168940739,
+          "pct_temporal": 40.1126783105926,
+          "parts": {
+            "lips": -0.16696922541377082,
+            "skin": -0.16308144555854373,
+            "eyes": 0.6568033953809267,
+            "nose": -0.1502370730132783
+          },
+          "parts_share": {
+            "lips": 14.683891170481761,
+            "skin": 14.341985432178937,
+            "eyes": 57.761719588003814,
+            "nose": 13.212403809335486
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "GNC_3": {
+      "type": "GNC",
+      "level": 3,
+      "param": 0.005,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.1597477329897605,
+          "p_spatial": 0.1541959215686506,
+          "p_temporal": 0.17345624068974191,
+          "p_fusion": 0.15138688346317208,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 52.90035042377573,
+          "pct_temporal": 47.09964957622428,
+          "parts": {
+            "lips": -0.22984207435410145,
+            "skin": -0.4793389642222975,
+            "eyes": -0.18574596672463783,
+            "nose": -0.8944089709338263
+          },
+          "parts_share": {
+            "lips": 12.845104407822683,
+            "skin": 26.788650683195165,
+            "eyes": 10.380720512616428,
+            "nose": 49.985524396365726
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.31893715930096245,
+          "p_spatial": 0.2272876323134857,
+          "p_temporal": 0.3821289954905,
+          "p_fusion": 0.347286279540139,
+          "verdict": "REAL",
+          "correct": false,
+          "clip_accuracy": 0.0,
+          "pct_spatial": 88.08840217730216,
+          "pct_temporal": 11.911597822697825,
+          "parts": {
+            "lips": -0.4194611732889766,
+            "skin": -0.3613944283042821,
+            "eyes": 0.21492131782538884,
+            "nose": -0.7411095731992415
+          },
+          "parts_share": {
+            "lips": 24.15017763519778,
+            "skin": 20.807026241512034,
+            "eyes": 12.373941460126897,
+            "nose": 42.6688546631633
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        }
+      }
+    },
+    "GNC_5": {
+      "type": "GNC",
+      "level": 5,
+      "param": 0.05,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.40853278354470157,
+          "p_spatial": 0.19156395181487013,
+          "p_temporal": 0.5021307009185471,
+          "p_fusion": 0.5318488798750276,
+          "verdict": "REAL",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 66.20068942029798,
+          "pct_temporal": 33.79931057970204,
+          "parts": {
+            "lips": -0.4443437720238036,
+            "skin": -0.37964840201059474,
+            "eyes": -0.08927887917994058,
+            "nose": -0.6176889697165916
+          },
+          "parts_share": {
+            "lips": 29.02386511524542,
+            "skin": 24.798061107028833,
+            "eyes": 5.831561754892957,
+            "nose": 40.3465120228328
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.49392750743959385,
+          "p_spatial": 0.2858389136775059,
+          "p_temporal": 0.5692984135682879,
+          "p_fusion": 0.6266415553663416,
+          "verdict": "REAL",
+          "correct": false,
+          "clip_accuracy": 37.5,
+          "pct_spatial": 51.237680909149596,
+          "pct_temporal": 48.76231909085041,
+          "parts": {
+            "lips": -0.24172944269492816,
+            "skin": -0.28736856967917646,
+            "eyes": 0.05162986843016404,
+            "nose": -0.5225357695948172
+          },
+          "parts_share": {
+            "lips": 21.910396722260078,
+            "skin": 26.047134751083846,
+            "eyes": 4.679739825696954,
+            "nose": 47.36272870095913
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        }
+      }
+    },
+    "GB_1": {
+      "type": "GB",
+      "level": 1,
+      "param": 7,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.5724383989564327,
+          "p_spatial": 0.6634910468084463,
+          "p_temporal": 0.49642917381821017,
+          "p_fusion": 0.5574384042873695,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 12.5,
+          "pct_spatial": 71.64910009309185,
+          "pct_temporal": 28.350899906908165,
+          "parts": {
+            "lips": 0.39486965550952713,
+            "skin": 0.20354358473039347,
+            "eyes": 0.2741532601210391,
+            "nose": -0.27314816099517203
+          },
+          "parts_share": {
+            "lips": 34.464921225860664,
+            "skin": 17.765643715291898,
+            "eyes": 23.928580943228567,
+            "nose": 23.84085411561886
+          },
+          "dominant_part": "lips",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.7600681924805079,
+          "p_spatial": 0.6434747109841763,
+          "p_temporal": 0.8130451408835636,
+          "p_fusion": 0.8238407265671268,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 17.764299423988636,
+          "pct_temporal": 82.23570057601137,
+          "parts": {
+            "lips": -0.24673165060093885,
+            "skin": 0.2870479320034143,
+            "eyes": 0.5278573604982023,
+            "nose": -0.055636784782343365
+          },
+          "parts_share": {
+            "lips": 22.083366362513903,
+            "skin": 25.691817934967666,
+            "eyes": 47.24512420939894,
+            "nose": 4.979691493119496
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "GB_3": {
+      "type": "GB",
+      "level": 3,
+      "param": 13,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.6538155138985844,
+          "p_spatial": 0.7391877848802239,
+          "p_temporal": 0.5509390168821247,
+          "p_fusion": 0.6714119731837698,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 0.0,
+          "pct_spatial": 78.11222766455151,
+          "pct_temporal": 21.887772335448485,
+          "parts": {
+            "lips": 0.3811393042716909,
+            "skin": 0.35902716526750367,
+            "eyes": 0.34936195323697505,
+            "nose": -0.12678761630130897
+          },
+          "parts_share": {
+            "lips": 31.33554865894624,
+            "skin": 29.517588663864842,
+            "eyes": 28.72295867297372,
+            "nose": 10.423904004215197
+          },
+          "dominant_part": "lips",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.7032978939168555,
+          "p_spatial": 0.6160277637274586,
+          "p_temporal": 0.7376482592865274,
+          "p_fusion": 0.7563396287872417,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 21.739936496624455,
+          "pct_temporal": 78.26006350337555,
+          "parts": {
+            "lips": -0.12792705214463707,
+            "skin": 0.3145546131554597,
+            "eyes": 0.4749540141968547,
+            "nose": -0.2674135743296132
+          },
+          "parts_share": {
+            "lips": 10.796905322047216,
+            "skin": 26.548070325366762,
+            "eyes": 40.085606895809995,
+            "nose": 22.569417456776034
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "GB_5": {
+      "type": "GB",
+      "level": 5,
+      "param": 21,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.6603419204194926,
+          "p_spatial": 0.7294977860665168,
+          "p_temporal": 0.5774307133417543,
+          "p_fusion": 0.6741934583463363,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 0.0,
+          "pct_spatial": 75.31650978220381,
+          "pct_temporal": 24.683490217796198,
+          "parts": {
+            "lips": 0.2714825279416066,
+            "skin": 0.40443562534242566,
+            "eyes": 0.3232414917776917,
+            "nose": -0.08425157843434616
+          },
+          "parts_share": {
+            "lips": 25.058124011818617,
+            "skin": 37.329835299042635,
+            "eyes": 29.835531030832467,
+            "nose": 7.776509658306284
+          },
+          "dominant_part": "skin",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.6905352087861794,
+          "p_spatial": 0.6660213477300594,
+          "p_temporal": 0.6790596060647391,
+          "p_fusion": 0.72663897158141,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 49.33762203725804,
+          "pct_temporal": 50.66237796274196,
+          "parts": {
+            "lips": 0.1382623634206618,
+            "skin": 0.3487082376650291,
+            "eyes": 0.4599315786301924,
+            "nose": -0.3331253149138338
+          },
+          "parts_share": {
+            "lips": 10.801515123755834,
+            "skin": 27.242245899249408,
+            "eyes": 35.93138276793344,
+            "nose": 26.024856209061305
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "JPEG_1": {
+      "type": "JPEG",
+      "level": 1,
+      "param": 2,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.5525513204234089,
+          "p_spatial": 0.6334005910396877,
+          "p_temporal": 0.48261710633510696,
+          "p_fusion": 0.5416677743282166,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 12.5,
+          "pct_spatial": 65.49904581633737,
+          "pct_temporal": 34.50095418366263,
+          "parts": {
+            "lips": 0.34022552003704215,
+            "skin": 0.15162858944359253,
+            "eyes": 0.25658878221411824,
+            "nose": -0.2811809214051366
+          },
+          "parts_share": {
+            "lips": 33.043672427575736,
+            "skin": 14.726600872515192,
+            "eyes": 24.920634016962577,
+            "nose": 27.309092682946492
+          },
+          "dominant_part": "lips",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.7880688678491268,
+          "p_spatial": 0.672857710022035,
+          "p_temporal": 0.8381645010253802,
+          "p_fusion": 0.8533572352346694,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 21.522210237355132,
+          "pct_temporal": 78.47778976264487,
+          "parts": {
+            "lips": -0.21400753880979362,
+            "skin": 0.2940136797783351,
+            "eyes": 0.5540484869676767,
+            "nose": 0.010149492038790566
+          },
+          "parts_share": {
+            "lips": 19.95930862736795,
+            "skin": 27.421042305334762,
+            "eyes": 51.67306164734064,
+            "nose": 0.9465874199566485
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "JPEG_3": {
+      "type": "JPEG",
+      "level": 3,
+      "param": 4,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.6931212926510681,
+          "p_spatial": 0.6802034266237134,
+          "p_temporal": 0.6573122838204619,
+          "p_fusion": 0.7419639880875151,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 0.0,
+          "pct_spatial": 51.106500554780396,
+          "pct_temporal": 48.893499445219604,
+          "parts": {
+            "lips": 0.1729397409321683,
+            "skin": 0.49039444406205995,
+            "eyes": 0.22980542570412735,
+            "nose": -0.21669601592037324
+          },
+          "parts_share": {
+            "lips": 15.582464356370831,
+            "skin": 44.186222923489666,
+            "eyes": 20.706257772987705,
+            "nose": 19.525054947151794
+          },
+          "dominant_part": "skin",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.7179931001911977,
+          "p_spatial": 0.5316932830374623,
+          "p_temporal": 0.8252191706509269,
+          "p_fusion": 0.7971975993616847,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 14.303464850465517,
+          "pct_temporal": 85.6965351495345,
+          "parts": {
+            "lips": -0.3004222072371269,
+            "skin": 0.3756515781878471,
+            "eyes": 0.2885035342682182,
+            "nose": -0.3165865465150481
+          },
+          "parts_share": {
+            "lips": 23.44916330853623,
+            "skin": 29.321118718375462,
+            "eyes": 22.518862877555183,
+            "nose": 24.71085509553312
+          },
+          "dominant_part": "skin",
+          "n_clips": 8
+        }
+      }
+    },
+    "JPEG_5": {
+      "type": "JPEG",
+      "level": 5,
+      "param": 6,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.7302025880936907,
+          "p_spatial": 0.6754052175217833,
+          "p_temporal": 0.7153954808986804,
+          "p_fusion": 0.7999451548162234,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 0.0,
+          "pct_spatial": 41.15997118404283,
+          "pct_temporal": 58.84002881595717,
+          "parts": {
+            "lips": -0.032725525251848867,
+            "skin": 0.49781525128354426,
+            "eyes": 0.277465513418095,
+            "nose": -0.08824556515846498
+          },
+          "parts_share": {
+            "lips": 3.651376012801786,
+            "skin": 55.54412506307849,
+            "eyes": 30.958431141371094,
+            "nose": 9.846067782748634
+          },
+          "dominant_part": "skin",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.6552104725100704,
+          "p_spatial": 0.5020551544610731,
+          "p_temporal": 0.7425362740788688,
+          "p_fusion": 0.7211330832845596,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 18.112424595021945,
+          "pct_temporal": 81.88757540497805,
+          "parts": {
+            "lips": -0.28210379310007255,
+            "skin": 0.4129296716888128,
+            "eyes": 0.24597895983118884,
+            "nose": -0.44918887744979585
+          },
+          "parts_share": {
+            "lips": 20.29229814991889,
+            "skin": 29.70286900710005,
+            "eyes": 17.693765605380378,
+            "nose": 32.31106723760068
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        }
+      }
+    },
+    "VC_1": {
+      "type": "VC",
+      "level": 1,
+      "param": 30,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.5161548483877942,
+          "p_spatial": 0.5715733144621675,
+          "p_temporal": 0.47712571495593914,
+          "p_fusion": 0.4997752058110888,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 50.0,
+          "pct_spatial": 43.65313477578251,
+          "pct_temporal": 56.34686522421749,
+          "parts": {
+            "lips": 0.13688752077392088,
+            "skin": 0.14644980640421998,
+            "eyes": 0.2681017367108455,
+            "nose": -0.34205569241686906
+          },
+          "parts_share": {
+            "lips": 15.320461570460793,
+            "skin": 16.390673293899916,
+            "eyes": 30.005966438942437,
+            "nose": 38.28289869669686
+          },
+          "dominant_part": "nose",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.7989785544723342,
+          "p_spatial": 0.7442147489392656,
+          "p_temporal": 0.7989164771979669,
+          "p_fusion": 0.8539838193158502,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 40.94679695835954,
+          "pct_temporal": 59.05320304164046,
+          "parts": {
+            "lips": -0.1144331223809693,
+            "skin": 0.34518060504905473,
+            "eyes": 0.6781856092414292,
+            "nose": 0.08682022637225316
+          },
+          "parts_share": {
+            "lips": 9.34438137641324,
+            "skin": 28.186762278330136,
+            "eyes": 55.37928918560197,
+            "nose": 7.089567159654674
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "VC_3": {
+      "type": "VC",
+      "level": 3,
+      "param": 35,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.5600690577313278,
+          "p_spatial": 0.6166447264027808,
+          "p_temporal": 0.4906899295813161,
+          "p_fusion": 0.5729085622534065,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 25.0,
+          "pct_spatial": 72.19461913562081,
+          "pct_temporal": 27.80538086437918,
+          "parts": {
+            "lips": 0.20417504931263214,
+            "skin": 0.13557864168223585,
+            "eyes": 0.2572890762037201,
+            "nose": -0.20061279857553202
+          },
+          "parts_share": {
+            "lips": 25.59689395691503,
+            "skin": 16.997141059331486,
+            "eyes": 32.25566112035118,
+            "nose": 25.150303863402304
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.7126344855568438,
+          "p_spatial": 0.659031833594717,
+          "p_temporal": 0.7180812147470175,
+          "p_fusion": 0.7609179879643468,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 39.25940172223966,
+          "pct_temporal": 60.74059827776034,
+          "parts": {
+            "lips": -0.2817249245676995,
+            "skin": 0.3716774362803266,
+            "eyes": 0.4755825230340845,
+            "nose": 0.015660472142682156
+          },
+          "parts_share": {
+            "lips": 24.612420177555624,
+            "skin": 32.47096878732072,
+            "eyes": 41.54846044942007,
+            "nose": 1.368150585703591
+          },
+          "dominant_part": "eyes",
+          "n_clips": 8
+        }
+      }
+    },
+    "VC_5": {
+      "type": "VC",
+      "level": 5,
+      "param": 40,
+      "results": {
+        "000": {
+          "ground_truth": "REAL",
+          "p_final": 0.5948755895492177,
+          "p_spatial": 0.7003845973968252,
+          "p_temporal": 0.46506410961644623,
+          "p_fusion": 0.6192349997751637,
+          "verdict": "FAKE",
+          "correct": false,
+          "clip_accuracy": 25.0,
+          "pct_spatial": 58.64133713980879,
+          "pct_temporal": 41.35866286019121,
+          "parts": {
+            "lips": 0.1893253755426449,
+            "skin": 0.31508797992526844,
+            "eyes": 0.31383156531482664,
+            "nose": -0.026609076900491056
+          },
+          "parts_share": {
+            "lips": 22.4092418408169,
+            "skin": 37.294962299912946,
+            "eyes": 37.14624848499497,
+            "nose": 3.1495473742751754
+          },
+          "dominant_part": "skin",
+          "n_clips": 8
+        },
+        "000_003": {
+          "ground_truth": "FAKE",
+          "p_final": 0.6794192243345771,
+          "p_spatial": 0.620679602447771,
+          "p_temporal": 0.6703102380464835,
+          "p_fusion": 0.7473754283957905,
+          "verdict": "FAKE",
+          "correct": true,
+          "clip_accuracy": 100.0,
+          "pct_spatial": 33.1754785152116,
+          "pct_temporal": 66.8245214847884,
+          "parts": {
+            "lips": -0.32137250645206117,
+            "skin": 0.3838619400637094,
+            "eyes": 0.3726914829155734,
+            "nose": -0.0033711687582275753
+          },
+          "parts_share": {
+            "lips": 29.721018117050246,
+            "skin": 35.50013596692472,
+            "eyes": 34.467075102631384,
+            "nose": 0.31177081339365126
+          },
+          "dominant_part": "skin",
+          "n_clips": 8
+        }
+      }
+    }
+  }
+}
