@@ -19,17 +19,3 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
-
----
-
-NOTE ON SCOPE
-
-This MIT license covers ONLY the explainability code and analysis in this
-repository (the xai/ package, figures and result files).
-
-It does NOT cover:
-  * the DFD-FCG model code and pretrained weights by Han, Huang, Hua and Chen
-    (CVPR 2025), which the authors release for RESEARCH PURPOSES ONLY --
-    see https://github.com/aiiu-lab/DFD-FCG
-  * the FaceForensics++ sample videos, which are governed by the
-    FaceForensics++ Terms of Use.

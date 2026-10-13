@@ -1,0 +1,35 @@
+# NOTICE — scope of the MIT license
+
+The MIT license in `LICENSE` covers **only** the explainability work in this
+repository: the `xai/` package, the generated figures, the result files and the
+presentation deck.
+
+It does **not** cover the following third-party material, which this project
+analyses but does not redistribute:
+
+### DFD-FCG model code and pretrained weights
+
+> Yue-Hua Han, Tai-Ming Huang, Kai-Lung Hua, Jun-Cheng Chen.
+> *Towards More General Video-based Deepfake Detection through Facial Component
+> Guided Adaptation for Foundation Model.* CVPR 2025.
+> https://github.com/aiiu-lab/DFD-FCG
+
+The authors state that their code and weights are **"only available for research
+purpose only"**. Commercial use requires contacting them directly. Neither the
+model code nor the checkpoint is included in this repository — `.gitignore`
+excludes `checkpoint/` and `*.ckpt`.
+
+### FaceForensics++ sample videos
+
+The two videos analysed (`000.mp4`, `000_003.mp4`) ship with the upstream
+repository and originate from FaceForensics++, governed by the FaceForensics++
+Terms of Use. They are **not** redistributed here; `.gitignore` excludes
+`resources/`.
+
+Two single frames are included under `xai/audit/` solely as evidence for the
+ground-truth label verification documented in the README.
+
+### OpenAI CLIP
+
+The frozen backbone is CLIP ViT-L/14 (MIT licensed), loaded via the upstream
+repository's vendored copy.
